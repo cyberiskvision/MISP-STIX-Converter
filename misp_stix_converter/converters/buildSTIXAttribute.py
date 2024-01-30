@@ -17,6 +17,7 @@ from cybox.objects import domain_name_object, hostname_object, uri_object
 from cybox.objects import link_object, mutex_object, whois_object
 from cybox.objects import x509_certificate_object, as_object, http_session_object
 from cybox.objects import pipe_object, network_packet_object, win_registry_key_object
+from cybox.objects import user_account_object
 from cybox.common.hashes import Hash
 
 import logging
@@ -60,6 +61,14 @@ def buildAttribute(attr, pkg, ind):
         obs.title = attr.comment or "IP Destination"
         ind.add_observable(obs)
 
+    elif type_ == "email":
+        # An Email
+        email = user_account_object.UserAccount()
+        email.username = value
+        obs = stix.indicator.Observable(email)
+        obs.title = attr.comment or "Breached Email Address"
+        ind.add_observable(obs)
+    
     elif type_ == "domain":
         # A domain. Add as a DomainName Object.
         dn = domain_name_object.DomainName()
