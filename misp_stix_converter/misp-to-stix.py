@@ -61,7 +61,7 @@ log.debug("Using config file at %s", configfile)
 
 try:
     with open(configfile, "r") as f:
-        CONFIG = pyaml.yaml.load(f)
+        CONFIG = pyaml.yaml.safe_load(f)
 except FileNotFoundError:
     print("Could not find config file {}".format(configfile))
     sys.exit(1)
